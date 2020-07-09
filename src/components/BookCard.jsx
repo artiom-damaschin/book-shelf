@@ -1,26 +1,24 @@
 import React from 'react'
-import { string } from 'prop-types'
+import { string, number } from 'prop-types'
 import { Card } from 'antd'
 
 const { Meta } = Card
 
-function BookCard({ title, description, image }) {
-  const shortDescription = `${description.substr(0, 40)}...`
-
+function BookCard({ title, image, width }) {
   return (
     <Card
       hoverable
-      style={{ width: 200, margin: '10px' }}
+      style={{ width, margin: '10px' }}
       cover={<img alt={`${title}-img`} src={image} />}
     >
-      <Meta title={title} description={shortDescription} />
+      <Meta title={title} />
     </Card>
   )
 }
 
 BookCard.propTypes = {
+  width: number.isRequired,
   title: string.isRequired,
-  description: string.isRequired,
   image: string.isRequired,
 }
 

@@ -1,60 +1,22 @@
 import React from 'react'
-import { Layout, Menu } from 'antd'
-
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { Layout } from 'antd'
 import './App.css'
 
-import { getBooks } from './api'
-import BookCard from './components/BookCard'
-
-const { Content, Sider } = Layout
-const { Item } = Menu
+import { Books, BookReview } from './screens'
+import { SideBar } from './components'
 
 function App() {
-  const [books, setBooks] = React.useState([])
-
-  React.useEffect(() => {
-    async function fetchBooks() {
-      const result = await getBooks('potter')
-      setBooks(result.items)
-    }
-    fetchBooks()
-  }, [])
-
   return (
-    <Layout>
-      <Sider theme="light">
-        <Menu theme="light" mode="inline">
-          <Item key="1">Book Lists</Item>
-          <Item key="2">Shelves</Item>
-          <Item key="3">Shelf</Item>
-        </Menu>
-      </Sider>
+    <Router>
       <Layout>
-        <Content
-          style={{
-            margin: '24px 16px 0',
-            display: 'flex',
-            flexFlow: 'row wrap',
-            justifyContent: 'center',
-          }}
-        >
-          {books.map(book => {
-            const {
-              id,
-              volumeInfo: { title, imageLinks, description },
-            } = book
-            return (
-              <BookCard
-                key={id}
-                title={title}
-                image={imageLinks.thumbnail}
-                description={description}
-              />
-            )
-          })}
-        </Content>
+        <SideBar />
+        <Switch>
+          <Route exact path="/" component={Books} />
+          <Route path="/book/:bookId" component={BookReview} />
+        </Switch>
       </Layout>
-    </Layout>
+    </Router>
   )
 }
 
